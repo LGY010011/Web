@@ -3,19 +3,20 @@
 import styled from 'styled-components';
 import { IoMdSearch } from "react-icons/io";
 import { BiSolidMoviePlay } from "react-icons/bi";
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
+    const navigate=useNavigate();
     return (
         <Side>
             <Category>
-                <StyledLink to="search">
+                <StyledLink onClick={()=>navigate(`search`)}>
                     <IoMdSearch />
                     <Text>찾기</Text>
                 </StyledLink>
             </Category>
             <Category>
-                <StyledLink to="movies">
+                <StyledLink onClick={()=>navigate(`movies`)}>
                     <BiSolidMoviePlay />
                     <Text>영화</Text>
                 </StyledLink>
@@ -50,8 +51,11 @@ const Text=styled.span`
     color:white;
 `
 // Link 스타일을 적용한 StyledLink
-const StyledLink = styled(Link)`
-    text-decoration: none; /* 밑줄 제거 */
+const StyledLink = styled.button`
+    background-color: transparent;
+    margin:0px;
+    padding:0px;
+    border:none;
     color: inherit; /* 부모의 색상(흰색)을 상속받음 */
     display: flex;
     align-items: center; /* 아이콘과 텍스트를 세로 정렬 */

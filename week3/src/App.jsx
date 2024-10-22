@@ -11,6 +11,7 @@ import SignupPage from './pages/signup.jsx';
 import LoginPage from './pages/login.jsx';
 import SearchPage from './pages/search.jsx';
 import MoviesLayout from './layout/movies-layout.jsx';
+import MovieDetailPage from './pages/movieDetail.jsx';
 
 const router = createBrowserRouter([
     {
@@ -36,22 +37,30 @@ const router = createBrowserRouter([
                     },
                     {
                         path: 'popular', // '/movies/popular' 경로
-                        element: <MoviesPage url="https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1"/> // MoviesPage를 연결
+                        element: <MoviesPage url='/movie/popular?language=ko-KR&page=1'/> // MoviesPage를 연결
                     },
                     {
                         path: 'now-playing', // '/movies/popular' 경로
-                        element: <MoviesPage url="https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=1"/> // MoviesPage를 연결
+                        element: <MoviesPage url='/movie/now_playing?language=ko-KR&page=1'/> // MoviesPage를 연결
                     },
                     {
                         path: 'top-rated', // '/movies/popular' 경로
-                        element: <MoviesPage url="https://api.themoviedb.org/3/movie/top_rated?language=ko-KR&page=1"/> // MoviesPage를 연결
+                        element: <MoviesPage url='/movie/top_rated?language=ko-KR&page=1'/> // MoviesPage를 연결
                     },
                     {
                         path:'up-coming',
-                        element:<MoviesPage url="https://api.themoviedb.org/3/movie/upcoming?language=ko-KR&page=1"/>
+                        element:<MoviesPage url='/movie/upcoming?language=ko-KR&page=1'/>
+                    },
+                    {
+                        path: ':movieId',
+                        element: <MovieDetailPage />
                     }
-                ]
+                ],
+                
+                
+            
             },
+            
             {
                 path:'login',
                 element:<LoginPage/>

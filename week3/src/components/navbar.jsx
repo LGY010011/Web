@@ -1,18 +1,19 @@
 // navbar.jsx
-import {Link} from "react-router-dom";
 import styled from 'styled-components';
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+    const navigate = useNavigate();
     return (
         <Nav>
-            <StyledLink to="/">
+            <StyledLink onClick={()=>{navigate('/');}}>
             <Youngcha>YOUNGCHA</Youngcha>
             </StyledLink>
             <Div>
-                <StyledLink to="login">
+                <StyledLink onClick={()=>{navigate('login');}}>
                     <Login>로그인</Login>
                 </StyledLink>
-                <StyledLink to="signup">
+                <StyledLink onClick={()=>{navigate('signup');}}>
                     <SignIn>회원가입</SignIn>
                 </StyledLink>
             </Div>
@@ -69,8 +70,11 @@ const SignIn=styled.div`
     }
 `
 
-const StyledLink = styled(Link)`
-    text-decoration: none; /* 밑줄 제거 */
+const StyledLink = styled.button`
+    background-color: transparent;
+    margin:0px;
+    padding:0px;
+    border:none;
     color: inherit; /* 부모의 색상(흰색)을 상속받음 */
     display: flex;
     align-items: center; /* 아이콘과 텍스트를 세로 정렬 */

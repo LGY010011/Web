@@ -1,18 +1,20 @@
 import styled from "styled-components";
 import { SelImage } from "../mocks/category";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Select = () => {
+    const navigate=useNavigate();
     return (
         <ImageContainer>
             {SelImage.results.map((category) => (
-                <Link key={category.id} to={category.link}> {/* Link에 key 추가 */}
-                <Card 
+                
+                <Card key={category.id}
                     style={{ backgroundImage: `url(${category.image})` }} // 배경 이미지 설정
+                    onClick={()=>{navigate(`${category.link}`)}}
                 >
                     <CategoryTitle>{category.name}</CategoryTitle>
                 </Card>
-            </Link>
+            
             ))}
         </ImageContainer>
     );

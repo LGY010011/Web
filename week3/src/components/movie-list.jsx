@@ -1,40 +1,30 @@
 import Movie from './movie.jsx';
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import useCustomFetch from '../hooks/useCustomFetch.js';
 
 
 const MovieList = ({ url }) => {
-    const tmdbToken=import.meta.env.VITE_TMDB_ACCESS_TOKEN;
-    const [movies, setMovies] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const {data: movies, isLoading, isError}=useCustomFetch({url});
+    
+    if(isLoading){
+        return (
+            <>
+                <h1>로딩 중 입니다</h1>
+            </>
+        )
+     }
 
-    useEffect(() => {
-        const getMovies = async () => {
-            try {
-                const response = await axios.get(url, {
-                    headers: {
-                        Authorization: `Bearer ${tmdbToken}`
-                    }
-                });
-                setMovies(response.data.results); // 응답에서 results 배열을 가져옴
-            } catch (err) {
-                setError(err.message); // 에러 메시지 저장
-            } finally {
-                setLoading(false); // 요청 완료
-            }
-        };
-
-        getMovies();
-    }, [url]);
-
-    if (loading) return <p>Loading...</p>; // 로딩 상태 표시
-    if (error) return <p>Error: {error}</p>; // 에러 상태 표시
+    if(isError){
+        return (
+             <>
+                 <h1>오류 발생 : 관리자</h1>
+             </>
+       )
+    }
 
     return (
         <CardList>
-            {movies.map((movie) => (
+            {movies.results?.map((movie) => (
                 <Movie key={movie.id} movie={movie} />
             ))}
         </CardList>
