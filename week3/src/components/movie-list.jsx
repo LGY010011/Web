@@ -3,7 +3,9 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+
 const MovieList = ({ url }) => {
+    const tmdbToken=import.meta.env.VITE_TMDB_ACCESS_TOKEN;
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -13,7 +15,7 @@ const MovieList = ({ url }) => {
             try {
                 const response = await axios.get(url, {
                     headers: {
-                        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMWEwZDFlYWM2ODI1MjBmNzk5YWFhMDYyZmJjM2EzZiIsIm5iZiI6MTcyOTUzMTYzNy4yMjk3NTksInN1YiI6IjY3MTUxZjMyZDViNzkyNmU5NDcwMmFhOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ytguXonY5SuSRZxAVtzAxtUUM1TNBdtgaAqRQpzQmQI`
+                        Authorization: `Bearer ${tmdbToken}`
                     }
                 });
                 setMovies(response.data.results); // 응답에서 results 배열을 가져옴
