@@ -1,10 +1,11 @@
 // login.jsx
-import {useForm} from 'react-hook-form'
+import {useForm} from '../../node_modules/react-hook-form/dist'
 import * as yup from 'yup'
 import {yupResolver} from '@hookform/resolvers/yup'
 import styled from 'styled-components';
+import { useState } from 'react';
 
-const LoginPage = () => {
+const LoginPageTemp = () => {
     const schema=yup.object().shape({
         email: yup.string().email('이메일 형식이 아닙니다.').required('이메일 입력은 필수입니다.'),
         password: yup.string().min(8,'비밀번호는 8자 이상입니다.')
@@ -35,7 +36,7 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default LoginPageTemp;
 
 const LoginForm=styled.div`
     display: flex;

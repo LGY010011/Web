@@ -1,5 +1,5 @@
 // signup.jsx
-import {useForm} from '../../../MovieWeb/node_modules/react-hook-form/dist'
+import useForm from '../hooks/useCustomForm';
 import * as yup from 'yup'
 import {yupResolver} from '@hookform/resolvers/yup'
 import styled from 'styled-components';
