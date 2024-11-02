@@ -10,8 +10,10 @@ function validateUser(values){
         birth:'',
     }
     
-
-    if(emailPattern.test(values.email)===false){
+    if (!values.email) {
+        errors.email = '이메일을 반드시 입력해주세요.';
+    }
+    else if(emailPattern.test(values.email)===false){
         errors.email='올바른 이메일 형식이 아닙니다. 다시 확인해주세요!'
     }
 
