@@ -61,16 +61,18 @@ const Input=styled.input`
     border:1px solid #ccc;
     border-radius:4px;
 
-    border: ${props=>props.error?'2px solid red':'1px solid #ccc'};
+    border: ${props=>(props.$error?'2px solid red':'1px solid #ccc')};
 
     &:focus {
         border-color:#007bff;
     }
 `
 
-const ErrorText=styled.h1`
+const ErrorText=styled.div`
     color:red;
     font-size:12px;
+    text-align: left; 
+    width: 300px;
 `
 
 const Button=styled.button`
