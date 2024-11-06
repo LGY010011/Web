@@ -1,21 +1,59 @@
 // navbar.jsx
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
     const navigate = useNavigate();
+    const { isLogin, logout } = useAuth();
+    const [email, setEmail]=useState('');
+    
+    useEffect(() => {
+        console.log("isLogin 상태:", isLogin);  // isLogin 상태 로그 찍기
+        if (isLogin) {  // isLogin이 true일 때만 이메일을 가져오도록
+            const userEmail = localStorage.getItem('email');
+            console.log("이메일 갱신: ", userEmail);
+            if (userEmail) {
+                setEmail(userEmail.split('@')[0]); // 이메일 상태에 저장
+            }
+        }
+    }, [isLogin]);  // isLogin이 변경될 때만 실행
+
+    const handleLogout = () => {
+        logout();  // 로그아웃 함수 호출
+        setEmail('');  // 이메일 상태 초기화
+        console.log("로그아웃됨, 이메일 상태 초기화");
+        //navigate('/login');  // 로그인 페이지로 이동
+    };
+
+
+
     return (
         <Nav>
             <StyledLink onClick={()=>{navigate('/');}}>
             <Youngcha>YOUNGCHA</Youngcha>
             </StyledLink>
             <Div>
-                <StyledLink onClick={()=>{navigate('login');}}>
-                    <Login>로그인</Login>
-                </StyledLink>
-                <StyledLink onClick={()=>{navigate('signup');}}>
-                    <SignIn>회원가입</SignIn>
-                </StyledLink>
+                {isLogin ? ( //로그인 상태
+                    <>
+                        <UserInfo>{email}님 반갑습니다.</UserInfo>
+                        <StyledLink >
+                            <Login onClick={handleLogout}>로그아웃</Login>
+                        </StyledLink>
+                        
+                    </>
+                ) : (
+                    <>
+                        <StyledLink >
+                            <Login onClick={()=>{navigate('login');}} >로그인</Login>
+                        </StyledLink>
+                        <StyledLink>
+                            <SignIn onClick={()=>{navigate('signup');}}>회원가입</SignIn>
+                        </StyledLink>
+                    </>
+                )};
             </Div>
         </Nav>
     );
@@ -85,3 +123,8 @@ const Div=styled.div`
     justify-content: space-between; 
     align-items: center; 
 `
+const UserInfo = styled.div`
+    color: white;
+    margin-right: 0px;
+    font-size:14px;
+`;

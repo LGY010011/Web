@@ -12,6 +12,7 @@ import LoginPage from './pages/login.jsx';
 import SearchPage from './pages/search.jsx';
 import MoviesLayout from './layout/movies-layout.jsx';
 import MovieDetailPage from './pages/movieDetail.jsx';
+import { AuthProvider } from './context/AuthContext.jsx';
 
 const router = createBrowserRouter([
     {
@@ -79,7 +80,11 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-    return <RouterProvider router={router}/>
+    return (
+        <AuthProvider>
+            <RouterProvider router={router}/>
+        </AuthProvider>
+    )
 }
 
 export default App

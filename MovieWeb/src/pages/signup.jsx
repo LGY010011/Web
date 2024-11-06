@@ -4,8 +4,11 @@ import * as yup from 'yup'
 import {yupResolver} from '@hookform/resolvers/yup'
 import styled from 'styled-components';
 import { validateSignup } from '../utils/validate';
+import { axiosInstanceBE } from '../apis/axios-instance-BE';
+import { useNavigate } from 'react-router-dom';
 
 const SignupPage = () => {
+    const navigate=useNavigate();
     const signup=useForm({
         initialValue: {
             email:'',
@@ -16,8 +19,21 @@ const SignupPage = () => {
         validate: validateSignup
     })
 
-    const handlePressSignup=()=>{
+    const handlePressSignup=async ()=>{
         console.log(signup.values.email, signup.values.password, signup.values.repassword, signup.values.birth)
+        try{
+            const response=await axiosInstanceBE.post('/auth/register',{
+                email:signup.values.email,
+                password: signup.values.password,
+                passwordCheck:  signup.values.repassword,
+            })
+            console.log("회원가입 성공: ", response.data);
+            navigate('/login');
+        }
+        catch(error){
+            console.log("회원가입 실패:", error);
+            alert("회원가입에 실패했습니다. 다시 시도해 주세요.");
+        }
     }
 
     // 회원가입 버튼 비활성화 조건
