@@ -1,14 +1,11 @@
-const TodoInput = ({hasDefault, type, onChange, defaultValue=''} ) => {
+const TodoInput = ({hasDefault, type, onChange,value, defaultValue=''} ) => {
     return (
         <input 
             className="todo-input"
             type={type} 
-            /*...(hasDefault) ? 
-                (defaultValue={defaultValue}):
-                (value={defaultValue})
-            */
-            {...(hasDefault ? { defaultValue } : { value: defaultValue, onChange })}
-            onChange={onChange} 
+            {...(hasDefault 
+                ? { defaultValue } //hasDefault가 참이라면 default로 설정
+                : { value, onChange })}
         />
     );
 }
