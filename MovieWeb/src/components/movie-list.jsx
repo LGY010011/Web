@@ -1,16 +1,16 @@
-import Movie from './movie.jsx';
+import Movie from './Card/movie';
 import styled from "styled-components";
 import useCustomFetch from '../hooks/useCustomFetch.js';
-
+import MovieListSkeleton from './Card/movie-list-skeleton.jsx';
 
 const MovieList = ({ url }) => {
     const {data: movies, isLoading, isError}=useCustomFetch({url});
     
     if(isLoading){
         return (
-            <>
-                <h1>로딩 중 입니다</h1>
-            </>
+            <CardList>
+                <MovieListSkeleton number={20} />
+            </CardList> 
         )
      }
 

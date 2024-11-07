@@ -30,13 +30,19 @@ const Card = styled.div`
     color:white;
     overflow:hidden;
     margin:15px;
-    width: 130px; /* px 단위를 추가하여 적절한 크기 지정 */
-    height:230px; /* px 단위를 추가하여 적절한 크기 지정 */
+    
+    width: 140px; /* px 단위를 추가하여 적절한 크기 지정 */
+    height:235px; /* px 단위를 추가하여 적절한 크기 지정 */
 `;
 
 const StyledImg=styled.img`
+
+    width: 140px;; 
+    height: 190px; 
     object-fit:cover;
+    margin-bottom:8px;
     border-radius: 10px; /* 모서리를 둥글게 설정 */
+    object-fit: cover; /* 이미지를 지정된 크기에 맞추되 비율을 유지 */
 `;
 
 const Overlay=styled.div`
@@ -55,7 +61,7 @@ const Overlay=styled.div`
 `;
 
 const Title=styled.span`
-    font-size:12px;
+    font-size:11px;
 `
 const Date=styled.span`
     font-size:9px;
