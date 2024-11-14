@@ -1,13 +1,28 @@
 import styled from "styled-components";
 import useCustomFetch from "../hooks/useCustomFetch"
 import Credit from "./credit";
+import { useQuery } from "@tanstack/react-query";
+import fetchMovies from "../apis/fetch-movie";
+import MovieDetailSkeleton from "./Card/movie-detail-skeleton";
+import MovieCreditSkeleton from "./Card/movie-credit-skeleton";
 
 const MovieCredit=({url})=>{
-    const {data:credit, isLoading, isError}=useCustomFetch({url});
+    const {data: credit, isLoading, isError}=useQuery({
+        queryKey: ['credit', url], 
+        queryFn:fetchMovies
+    });
 
     // 로딩 및 에러 처리
-    if (isLoading) return <p>Loading...</p>;
-    if (isError) return <p>Error fetching movie details.</p>;
+    if (isLoading){ 
+        return (
+            <Block>
+                <MovieCreditSkeleton number={20}/>
+            </Block>
+        )
+    }
+    if (isError) {
+        return <p>Error 서버에 문의하세요.</p>;
+    }
 
     // movie 데이터가 유효한지 확인
     if (!credit) return <p>No movie data available.</p>;

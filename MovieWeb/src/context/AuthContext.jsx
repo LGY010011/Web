@@ -7,11 +7,13 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [isLogin, setIsLogin] = useState(false);
     const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken') || null);
+    const [email, setEmail]=useState(localStorage.getItem('email')||null);
 
     // 로그인 상태 변경 함수
     const login = (email, accessToken,refreshToken) => {
         setIsLogin(true);
         setAccessToken(accessToken);
+        setEmail(email);
         localStorage.setItem('accessToken', accessToken);  // 로컬 스토리지에 토큰 저장
         localStorage.setItem('refreshToken', refreshToken)
         localStorage.setItem('email',email);
@@ -26,8 +28,13 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('refreshToken');
     };
 
+    //메일 가져오는 함수
+    // const getEmail=()=>{
+    //     localStorage.getItem('email');
+    // }
+
     return (
-        <AuthContext.Provider value={{ isLogin, accessToken, login, logout }}>
+        <AuthContext.Provider value={{ isLogin, accessToken,email, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

@@ -2,9 +2,14 @@ import Movie from './Card/movie';
 import styled from "styled-components";
 import useCustomFetch from '../hooks/useCustomFetch.js';
 import MovieListSkeleton from './Card/movie-list-skeleton.jsx';
+import { useQuery } from '@tanstack/react-query';
+import fetchMovies from '../apis/fetch-movie.js';
 
 const MovieList = ({ url }) => {
-    const {data: movies, isLoading, isError}=useCustomFetch({url});
+    const {data: movies, isLoading, isError}=useQuery({
+        queryKey: ['movies', url], 
+        queryFn:fetchMovies
+    });
     
     if(isLoading){
         return (

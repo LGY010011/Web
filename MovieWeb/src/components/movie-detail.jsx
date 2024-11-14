@@ -3,15 +3,19 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import useCustomFetch from "../hooks/useCustomFetch";
-
+import { useQuery } from "@tanstack/react-query";
+import fetchMovies from "../apis/fetch-movie";
+import MovieDetailSkeleton from "./Card/movie-detail-skeleton";
 
 const MovieDetail = ({url}) => { // movie prop을 구조분해 할당
     
-    const { data: movie, isLoading, isError } = useCustomFetch({ url });
-   
+    const {data: movie, isLoading, isError}=useQuery({
+        queryKey: ['movie', url], 
+        queryFn:fetchMovies
+    });
 
     // 로딩 및 에러 처리
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading) return <MovieDetailSkeleton/>;
     if (isError) return <p>Error fetching movie details.</p>;
 
     // movie 데이터가 유효한지 확인

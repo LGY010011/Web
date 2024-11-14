@@ -7,19 +7,7 @@ import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
     const navigate = useNavigate();
-    const { isLogin, logout } = useAuth();
-    const [email, setEmail]=useState('');
-    
-    useEffect(() => {
-        console.log("isLogin 상태:", isLogin);  // isLogin 상태 로그 찍기
-        if (isLogin) {  // isLogin이 true일 때만 이메일을 가져오도록
-            const userEmail = localStorage.getItem('email');
-            console.log("이메일 갱신: ", userEmail);
-            if (userEmail) {
-                setEmail(userEmail.split('@')[0]); // 이메일 상태에 저장
-            }
-        }
-    }, [isLogin]);  // isLogin이 변경될 때만 실행
+    const { isLogin, email,logout } = useAuth();
 
     const handleLogout = () => {
         logout();  // 로그아웃 함수 호출
@@ -38,7 +26,7 @@ const Navbar = () => {
             <Div>
                 {isLogin ? ( //로그인 상태
                     <>
-                        <UserInfo>{email}님 반갑습니다.</UserInfo>
+                        <UserInfo>{email.split('@')[0]}님 반갑습니다.</UserInfo>
                         <StyledLink >
                             <Login onClick={handleLogout}>로그아웃</Login>
                         </StyledLink>
