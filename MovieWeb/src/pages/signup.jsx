@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { validateSignup } from '../utils/validate';
 import { axiosInstanceBE } from '../apis/axios-instance-BE';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
 
 const SignupPage = () => {
     const navigate=useNavigate();
@@ -19,21 +20,27 @@ const SignupPage = () => {
         validate: validateSignup
     })
 
-    const handlePressSignup=async ()=>{
-        console.log(signup.values.email, signup.values.password, signup.values.repassword, signup.values.birth)
-        try{
-            const response=await axiosInstanceBE.post('/auth/register',{
-                email:signup.values.email,
-                password: signup.values.password,
-                passwordCheck:  signup.values.repassword,
-            })
-            console.log("회원가입 성공: ", response.data);
+    const signupMutation=useMutation({
+        mutationFn: async(signupData)=>{
+            const response = await axiosInstanceBE.post('/auth/register',signupData);
+            return response.data;
+        },
+        onSuccess: async(data)=>{
+            console.log("회원가입 성공 : ", data);
             navigate('/login');
-        }
-        catch(error){
+        },
+        onError: (error)=>{
             console.log("회원가입 실패:", error);
             alert("회원가입에 실패했습니다. 다시 시도해 주세요.");
         }
+    });
+
+    const handlePressSignup=async ()=>{
+        signupMutation.mutate({
+                email:signup.values.email,
+                password: signup.values.password,
+                passwordCheck:  signup.values.repassword,
+            });
     }
 
     // 회원가입 버튼 비활성화 조건

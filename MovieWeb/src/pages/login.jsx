@@ -7,6 +7,7 @@ import { validateLogin } from '../utils/validate';
 import { axiosInstanceBE, setAuthToken } from '../apis/axios-instance-BE';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useMutation } from '@tanstack/react-query';
 
 const LoginPage = () => {
 
@@ -21,39 +22,42 @@ const LoginPage = () => {
         validate: validateLogin
     })
 
-    const handlePressLogin=async ()=>{
-        console.log(loginForm.values.email, loginForm.values.password);
-        try{
-            const response=await axiosInstanceBE.post('/auth/login',{
-                email:loginForm.values.email,
-                password: loginForm.values.password,
-            })
-            console.log("로그인 성공: ", response.data);
-            
-            //---------------회원정보 요청--------------------//
-            setAuthToken(response.data.accessToken);
-            const userInfoResponse= await axiosInstanceBE.get('/user/me')
-
-            // 응답에서 user 정보가 있다면 이메일을 로컬 스토리지에 저장
-            if (userInfoResponse) {
-                const email = userInfoResponse.data.email;  // 이메일 정보 추출
-                console.log("유저 이메일: ", email);
-
-                // 로컬 스토리지에 저장
-                login(email, response.data.accessToken, response.data.refreshToken);
-                //localStorage.setItem('email',email);
-
-                // 메인 페이지로 이동
-                navigate('/');
-            } else {
-                throw new Error("유저 정보를 불러올 수 없습니다.");
-            }
-        }
-        catch(error){
-            console.log("로그인 실패:", error);
-            alert("로그인에 실패했습니다. 다시 시도해 주세요.");
-        }
+    // 로그인 요청 처리
+    const loginMutation = useMutation({
+        mutationFn: async (loginData) => {
+        const response = await axiosInstanceBE.post("/auth/login", loginData);
+        return response.data;
+        },
+        onSuccess: async (data) => {
+        console.log("로그인 성공:", data);
         
+        // 회원정보 요청
+        setAuthToken(data.accessToken);
+        const userInfoResponse = await axiosInstanceBE.get('/user/me');
+        
+        if (userInfoResponse) {
+            const email = userInfoResponse.data.email;
+            console.log("유저 이메일: ", email);
+            
+            // 로그인 성공 시 로컬 스토리지에 저장
+            login(email, data.accessToken, data.refreshToken);
+            navigate('/');
+        } else {
+            throw new Error('유저 정보를 불러올 수 없습니다.');
+        }
+        },
+        onError: (error) => {
+        console.error("로그인 실패:", error);
+        alert("로그인에 실패했습니다. 다시 시도해 주세요.");
+        },
+    });
+  
+    
+
+
+    const handlePressLogin=async ()=>{
+        console.log(loginForm.values.email, loginForm.values.password);  // 로그인 정보 확인
+        loginMutation.mutate({email: loginForm.values.email, password: loginForm.values.password});
     }
 
     

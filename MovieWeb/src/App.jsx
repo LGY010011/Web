@@ -12,9 +12,14 @@ import LoginPage from './pages/login.jsx';
 import SearchPage from './pages/search.jsx';
 import MoviesLayout from './layout/movies-layout.jsx';
 import MovieDetailPage from './pages/movieDetail.jsx';
+import SimilarMoviesPage from './pages/similarMovies.jsx';
 
 import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import { AuthProvider } from './context/AuthContext.jsx';
+import ReviewPage from './pages/review.jsx';
+
+
+const queryClient=new QueryClient();
 
 const router = createBrowserRouter([
     {
@@ -57,7 +62,15 @@ const router = createBrowserRouter([
                     {
                         path: ':movieId',
                         element: <MovieDetailPage />
-                    }
+                    },
+                    {
+                        path: ':movieId/similar', // 유사 영화 페이지
+                        element: <SimilarMoviesPage />, 
+                    },
+                    {
+                        path: ':movieId/reviews', // 유사 영화 페이지
+                        element: <ReviewPage />, 
+                    },
                 ],
                 
                 
@@ -81,7 +94,6 @@ const router = createBrowserRouter([
    
 ])
 
-const queryClient=new QueryClient();
 
 function App() {
     return (
