@@ -32,7 +32,7 @@ const Container=styled.div`
 const CardMain=styled.div`
     width: 140px;; 
     height: 190px; 
-    background:#e0e0e0;;
+    background:#e0e0e0;
     border-radius:10px;
     overflow:hidden;
     animation:${skeleton} 1.5s infinite linear alternate;
